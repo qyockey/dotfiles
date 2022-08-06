@@ -1,0 +1,16 @@
+configuration {
+	font: "JetBrainsMono Nerd Font 18";
+	auto-select: false;
+	show-icons: true;
+	terminal: "alacritty";
+
+}
+//@theme "/usr/share/rofi/themes/midnight.rasi"
+listview {
+	lines: 8;
+	columns: 1;
+}
+element-icon { 
+	size: 2ch;
+}
+@theme "/usr/share/rofi/themes/midnight.rasi"
