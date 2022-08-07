@@ -20,6 +20,11 @@ declare -A filepaths=([alacritty]=~/.config/alacritty/*
 [zsh]=~/.zshrc
 )
 
+declare -A comments=([git add -A]="adding all files for commit"
+[git commit -m "$message"]="committing"
+[git push]="pushing changes"
+)
+
 for program in "${!filepaths[@]}"; do
     # create directory for program if it doesn't exist
     mkdir --parents $program
@@ -30,19 +35,11 @@ for program in "${!filepaths[@]}"; do
     printf " done!\n"
 done
 
-printf "${GREEN}adding all files for commit${NOCOLOR}\n"
-git add -A
-[ $? != 0 ] && exit $?
-printf "done!\n"
-
-printf "${GREEN}commiting${NOCOLOR}\n"
-git commit -m "$message"
-[ $? != 0 ] && exit $?
-printf "done!\n"
-
-printf "${GREEN}pushing changes${NOCOLOR}\n"
-git push
-[ $? != 0 ] && exit $?
-printf "done!\n"
+for cmd in "${!comments[@]}"; do
+    printf "${GREEN}${comments[$cmd]}${NOCOLOR}\n"
+    $cmd
+    [ $? != 0 ] && exit $?
+    printf "done!\n"
+done
 
 printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"

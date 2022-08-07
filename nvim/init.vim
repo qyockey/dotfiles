@@ -63,10 +63,13 @@ nnoremap K {
 nnoremap J }
 
 " movement keys in insert mode
-inoremap <C-k> <Up>
-inoremap <C-j> <Down>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
+"inoremap <C-k> <Up>
+"inoremap <C-j> <Down>
+"inoremap <C-h> <Left>
+"inoremap <C-l> <Right>
+
+inoremap <C-h> <BS>
+inoremap <C-l> <Del>
 
 " tabbing
 nnoremap <Tab>   >>
@@ -79,7 +82,7 @@ inoremap ( ()<Left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
 inoremap [ []<Left>
 inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
-inoremap { {<CR>}<Left><C-o>O<Tab>
+inoremap { {}<Left>
 inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
 
 " change Y to fit with C and D
