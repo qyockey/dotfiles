@@ -3,25 +3,28 @@
 GREEN="\033[0;32m"
 NOCOLOR="\033[0m"
 
-declare -A filepaths=([alacritty]=~/.config/alacritty/*
-[awesome]=~/.config/awesome/*
-[bash]=~/.bashrc
-[emacs]=~/.doom.d
-[i3]=~/.config/i3/*
-[neofetch]=~/.config/neofetch/*
-[nvim]=~/.config/nvim/*
-[polybar]=/etc/polybar/*
-[rofi]=~/.config/rofi/*
-[vim]=~/.vimrc
-[zsh]=~/.zshrc
+declare -A filepaths=(
+    [alacritty]=~/.config/alacritty/*
+    [awesome]=~/.config/awesome/*
+    [bash]=~/.bashrc
+    [emacs]=~/.doom.d
+    [i3]=~/.config/i3/*
+    [neofetch]=~/.config/neofetch/*
+    [nvim]=~/.config/nvim/*
+    [polybar]=/etc/polybar/*
+    [rofi]=~/.config/rofi/*
+    [vim]=~/.vimrc
+    [zsh]=~/.zshrc
 )
 
 runCommand () {
     local comment=$1
     local cmd=$2
-    #printf "$cmd\n"
+
     printf "${GREEN}$comment${NOCOLOR}\n"
     eval $cmd
+
+    # halt on error
     [ $? != 0 ] && exit $?
     printf "done!\n"
 }
@@ -29,9 +32,6 @@ runCommand () {
 getCommitMessage () {
     printf "${GREEN}enter commit message: ${NOCOLOR}"
     read message
-    #message=$(echo $message | sed 's, ,\\ ,')
-    #message=$message
-    #printf "$message"
     printf "\n"
 }
 
@@ -54,6 +54,6 @@ pushToGitHub () {
 }
 
 getCommitMessage
-#updateFiles
+updateFiles
 pushToGitHub
 printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"
