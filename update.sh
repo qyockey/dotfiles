@@ -20,26 +20,43 @@ declare -A filepaths=([alacritty]=~/.config/alacritty/*
 [zsh]=~/.zshrc
 )
 
-declare -A comments=([git add -A]="adding all files for commit"
-[git commit -m "$message"]="committing"
-[git push]="pushing changes"
-)
+updateFiles () {
+    for program in "${!filepaths[@]}"; do
+        # create directory for program if it doesn't exist
+        mkdir --parents $program
+    
+        # copy files from filepath to current directory
+        printf "${GREEN}copying files for $program...${NOCOLOR}"
+        cp -r ${filepaths[$program]} ./$program
+        printf " done!\n"
+    done
+}
 
-for program in "${!filepaths[@]}"; do
-    # create directory for program if it doesn't exist
-    mkdir --parents $program
-
-    # copy files from filepath to current directory
-    printf "${GREEN}copying files for $program...${NOCOLOR}"
-    cp -r ${filepaths[$program]} ./$program
-    printf " done!\n"
-done
-
-for cmd in "${!comments[@]}"; do
-    printf "${GREEN}${comments[$cmd]}${NOCOLOR}\n"
+runCommand () {
+    comment=$1
+    cmd=$2
+    printf "${GREEN}$comment${NOCOLOR}\n"
     $cmd
-    [ $? != 0 ] && exit $?
+    [ $? != 0 ] && {}exit $?
     printf "done!\n"
-done
+}
+
+runCommand "adding all files for commit" "git add -A"
+runCommand "committing" "git commit -m '$message'"
+runCommand "pushing changes" "git push"
+#printf "${GREEN}adding all files for commit${NOCOLOR}\n"
+#git add -A
+#[ $? != 0 ] && {}exit $?
+#printf "done!\n"
+#
+#printf "${GREEN}commiting${NOCOLOR}\n"
+#git commit -m "$message"
+#[ $? != 0 ] && exit $?
+#printf "done!\n"
+#
+#printf "${GREEN}pushing changes${NOCOLOR}\n"
+#git push
+#[ $? != 0 ] && exit $?
+#printf "done!\n"
 
 printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"
