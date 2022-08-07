@@ -3,38 +3,44 @@
 GREEN='\033[0;32m'
 NOCOLOR='\033[0m'
 
-printf "enter commit message: "
+printf "${GREEN}enter commit message: ${NOCOLOR}"
 read message
 echo ""
 
-echo -e "${GREEN}copying files into ./alacritty/${NOCOLOR}"
-cp -r ~/.config/alacritty/*  ./alacritty
-echo -e "${GREEN}copying files into ./awesome/${NOCOLOR}"
-cp -r ~/.config/awesome/*    ./awesome
-echo -e "${GREEN}copying files into ./bash/${NOCOLOR}"
-cp -r ~/.bashrc              ./bash
-echo -e "${GREEN}copying files into ./emacs/${NOCOLOR}"
-cp -r ~/.doom.d              ./emacs
-echo -e "${GREEN}copying files into ./i3/${NOCOLOR}"
-cp -r ~/.config/i3/*         ./i3
-echo -e "${GREEN}copying files into ./neofetch/${NOCOLOR}"
-cp -r ~/.config/neofetch/*   ./neofetch
-echo -e "${GREEN}copying files into ./nvim/${NOCOLOR}"
-cp -r ~/.config/nvim/*       ./nvim
-echo -e "${GREEN}copying files into ./polybar/${NOCOLOR}"
-cp -r /etc/polybar/*         ./polybar
-echo -e "${GREEN}copying files into ./rofi/${NOCOLOR}"
-cp -r ~/.config/rofi/*       ./rofi
-echo -e "${GREEN}copying files into ./vim/${NOCOLOR}"
-cp -r ~/.vimrc               ./vim
-echo -e "${GREEN}copying files into ./zsh/${NOCOLOR}"
-cp -r ~/.zshrc               ./zsh
-echo ""
+declare -A filepaths=([alacritty]=~/.config/alacritty/*
+[awesome]=~/.config/awesome/*
+[bash]=~/.bashrc
+[emacs]=~/.doom.d
+[i3]=~/.config/i3/*
+[neofetch]=~/.config/neofetch/*
+[nvim]=~/.config/nvim/*
+[polybar]=/etc/polybar/*
+[rofi]=~/.config/rofi/*
+[vim]=~/.vimrc
+[zsh]=~/.zshrc
+)
+
+for program in "${!filepaths[@]}"; do
+    #echo "$program:     ${filepaths[$program]}"
+    
+    # create directory for program if it doesn't exist
+    mkdir --parents $program
+
+    # copy files from filepath to current directory
+    echo -e "${GREEN}copying files for $program${NOCOLOR}"
+    cp -r ${filepaths[$program]} ./$program
+done
 
 echo -e "${GREEN}adding all files for commit${NOCOLOR}"
 git add -A
+[ $? != 0 ] && exit $?
+
 echo -e "${GREEN}commiting${NOCOLOR}"
 git commit -m "$message"
+[ $? != 0 ] && exit $?
+
 echo -e "${GREEN}pushing changes${NOCOLOR}"
 git push
+[ $? != 0 ] && exit $?
+
 echo -e "${GREEN}done!${NOCOLOR}"
