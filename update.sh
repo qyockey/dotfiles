@@ -3,10 +3,6 @@
 GREEN="\033[0;32m"
 NOCOLOR="\033[0m"
 
-printf "${GREEN}enter commit message: ${NOCOLOR}"
-read message
-printf '\n'
-
 declare -A filepaths=([alacritty]=~/.config/alacritty/*
 [awesome]=~/.config/awesome/*
 [bash]=~/.bashrc
@@ -19,6 +15,12 @@ declare -A filepaths=([alacritty]=~/.config/alacritty/*
 [vim]=~/.vimrc
 [zsh]=~/.zshrc
 )
+
+getCommitMessage () {
+    printf "${GREEN}enter commit message: ${NOCOLOR}"
+    read message
+    printf "\n"
+}
 
 updateFiles () {
     for program in "${!filepaths[@]}"; do
@@ -43,10 +45,11 @@ runCommand () {
 
 pushToGitHub () {
     runCommand "adding all files for commit" "git add -A"
-    runCommand "committing" 'git commit -m "$message"'
+    runCommand "committing" "git commit -m \"$message\""
     runCommand "pushing changes" "git push"
 }
 
+getCommitMessage
 updateFiles
 pushToGitHub
 printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"
