@@ -29,7 +29,7 @@ runCommand () {
 getCommitMessage () {
     printf "${GREEN}enter commit message: ${NOCOLOR}"
     read message
-    message=$(echo $message | sed 's, ,\\,')
+    message=$(echo $message | sed 's, ,_,')
     printf "$message"
     printf "\n"
 }
