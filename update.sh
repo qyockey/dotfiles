@@ -48,7 +48,7 @@ updateFiles () {
 
 pushToGitHub () {
     runCommand "adding all files for commit" "git add -A"
-    runCommand "committing" "git commit -m '$message'"
+    runCommand "committing" "git commit -m $message"
     runCommand "pushing changes" "git push"
 }
 
