@@ -30,16 +30,19 @@ for program in "${!filepaths[@]}"; do
     printf " done!\n"
 done
 
-printf "${GREEN}adding all files for commit${NOCOLOR}\n"
+printf "${GREEN}adding all files for commit${NOCOLOR}"
 git add -A
 [ $? != 0 ] && exit $?
+printf " done!\n"
 
-printf "${GREEN}commiting${NOCOLOR}\n"
+printf "${GREEN}commiting${NOCOLOR}"
 git commit -m "$message"
 [ $? != 0 ] && exit $?
+printf " done!\n"
 
-printf "${GREEN}pushing changes${NOCOLOR}\n"
+printf "${GREEN}pushing changes${NOCOLOR}"
 git push
 [ $? != 0 ] && exit $?
+printf " done!\n"
 
-printf "${GREEN}done!${NOCOLOR}\n"
+printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"
