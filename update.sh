@@ -29,7 +29,8 @@ runCommand () {
 getCommitMessage () {
     printf "${GREEN}enter commit message: ${NOCOLOR}"
     read message
-    message=$(echo $message | sed 's, ,_,')
+    message=$(echo $message | sed 's, ,\\ ,')
+    message=\\"$message\\"
     printf "$message"
     printf "\n"
 }
@@ -53,6 +54,6 @@ pushToGitHub () {
 }
 
 getCommitMessage
-updateFiles
+#updateFiles
 pushToGitHub
 printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"
