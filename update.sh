@@ -1,11 +1,11 @@
 #!/usr/bin/sh
 
-GREEN='\033[0;32m'
-NOCOLOR='\033[0m'
+GREEN="\033[0;32m"
+NOCOLOR="\033[0m"
 
 printf "${GREEN}enter commit message: ${NOCOLOR}"
 read message
-echo ""
+printf '\n'
 
 declare -A filepaths=([alacritty]=~/.config/alacritty/*
 [awesome]=~/.config/awesome/*
@@ -21,26 +21,25 @@ declare -A filepaths=([alacritty]=~/.config/alacritty/*
 )
 
 for program in "${!filepaths[@]}"; do
-    #echo "$program:     ${filepaths[$program]}"
-    
     # create directory for program if it doesn't exist
     mkdir --parents $program
 
     # copy files from filepath to current directory
-    echo -e "${GREEN}copying files for $program${NOCOLOR}"
+    printf "${GREEN}copying files for $program...${NOCOLOR}"
     cp -r ${filepaths[$program]} ./$program
+    printf " done!\n"
 done
 
-echo -e "${GREEN}adding all files for commit${NOCOLOR}"
+printf "${GREEN}adding all files for commit${NOCOLOR}\n"
 git add -A
 [ $? != 0 ] && exit $?
 
-echo -e "${GREEN}commiting${NOCOLOR}"
+printf "${GREEN}commiting${NOCOLOR}\n"
 git commit -m "$message"
 [ $? != 0 ] && exit $?
 
-echo -e "${GREEN}pushing changes${NOCOLOR}"
+printf "${GREEN}pushing changes${NOCOLOR}\n"
 git push
 [ $? != 0 ] && exit $?
 
-echo -e "${GREEN}done!${NOCOLOR}"
+printf "${GREEN}done!${NOCOLOR}\n"
