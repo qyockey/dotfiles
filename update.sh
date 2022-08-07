@@ -37,26 +37,16 @@ runCommand () {
     cmd=$2
     printf "${GREEN}$comment${NOCOLOR}\n"
     $cmd
-    [ $? != 0 ] && {}exit $?
+    [ $? != 0 ] && exit $?
     printf "done!\n"
 }
 
-runCommand "adding all files for commit" "git add -A"
-runCommand "committing" "git commit -m '$message'"
-runCommand "pushing changes" "git push"
-#printf "${GREEN}adding all files for commit${NOCOLOR}\n"
-#git add -A
-#[ $? != 0 ] && {}exit $?
-#printf "done!\n"
-#
-#printf "${GREEN}commiting${NOCOLOR}\n"
-#git commit -m "$message"
-#[ $? != 0 ] && exit $?
-#printf "done!\n"
-#
-#printf "${GREEN}pushing changes${NOCOLOR}\n"
-#git push
-#[ $? != 0 ] && exit $?
-#printf "done!\n"
+pushToGitHub () {
+    runCommand "adding all files for commit" "git add -A"
+    runCommand "committing" 'git commit -m "$message"'
+    runCommand "pushing changes" "git push"
+}
 
+updateFiles
+pushToGitHub
 printf "${GREEN}repo pushed succesfully!${NOCOLOR}\n"
