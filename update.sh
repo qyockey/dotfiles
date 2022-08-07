@@ -29,7 +29,7 @@ runCommand () {
 getCommitMessage () {
     printf "${GREEN}enter commit message: ${NOCOLOR}"
     read message
-    message=$(echo $message | sed 's, ,\\ ,')
+    #message=$(echo $message | sed 's, ,\\ ,')
     message=\"$message\"
     printf "$message"
     printf "\n"
@@ -48,8 +48,9 @@ updateFiles () {
 }
 
 pushToGitHub () {
+    commitStr='git commit -m '"$message"
     runCommand "adding all files for commit" "git add -A"
-    runCommand "committing" 'git commit -m "$message"'
+    runCommand "committing" "$commitStr"
     runCommand "pushing changes" "git push"
 }
 
