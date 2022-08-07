@@ -17,9 +17,9 @@ declare -A filepaths=([alacritty]=~/.config/alacritty/*
 )
 
 runCommand () {
-    comment=$1
-    cmd=$2
-    printf "$cmd"
+    local comment=$1
+    local cmd=$2
+    printf "$cmd\n"
     printf "${GREEN}$comment${NOCOLOR}\n"
     $cmd
     [ $? != 0 ] && exit $?
@@ -30,7 +30,7 @@ getCommitMessage () {
     printf "${GREEN}enter commit message: ${NOCOLOR}"
     read message
     #message=$(echo $message | sed 's, ,\\ ,')
-    message=\"$message\"
+    message=$message
     printf "$message"
     printf "\n"
 }
@@ -48,9 +48,8 @@ updateFiles () {
 }
 
 pushToGitHub () {
-    commitStr='git commit -m '"$message"
     runCommand "adding all files for commit" "git add -A"
-    runCommand "committing" "$commitStr"
+    runCommand "committing" "git commit -m $message"
     runCommand "pushing changes" "git push"
 }
 
