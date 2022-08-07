@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 GREEN="\033[0;32m"
 NOCOLOR="\033[0m"
@@ -16,6 +16,16 @@ declare -A filepaths=([alacritty]=~/.config/alacritty/*
 [zsh]=~/.zshrc
 )
 
+runCommand () {
+    comment=$1
+    cmd=$2
+    printf "$cmd"
+    printf "${GREEN}$comment${NOCOLOR}\n"
+    $cmd
+    [ $? != 0 ] && exit $?
+    printf "done!\n"
+}
+
 getCommitMessage () {
     printf "${GREEN}enter commit message: ${NOCOLOR}"
     read message
@@ -32,15 +42,6 @@ updateFiles () {
         cp -r ${filepaths[$program]} ./$program
         printf " done!\n"
     done
-}
-
-runCommand () {
-    comment=$1
-    cmd=$2
-    printf "${GREEN}$comment${NOCOLOR}\n"
-    $cmd
-    [ $? != 0 ] && exit $?
-    printf "done!\n"
 }
 
 pushToGitHub () {

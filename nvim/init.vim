@@ -40,22 +40,6 @@ colorscheme NeoSolarized
 set background=dark
 hi Normal ctermbg=none
 
-" disable crutches
-nmap <Up>    <NOP>
-nmap <Down>  <NOP>
-nmap <Left>  <NOP>
-nmap <Right> <NOP>
-
-imap <Up>    <NOP>
-imap <Down>  <NOP>
-imap <Left>  <NOP>
-imap <Right> <NOP>
-
-vmap <Up>    <NOP>
-vmap <Down>  <NOP>
-vmap <Left>  <NOP>
-vmap <Right> <NOP>
-
 " better fast navigation bindings
 nnoremap H ^
 nnoremap L $
